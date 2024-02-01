@@ -15,7 +15,12 @@
     "paths": {
       "~/*": ["./app/*"]
     },
-
+    "noImplicitAny": false,
+    "typeRoots": [
+        "../node_modules/@types",
+        "../node_modules/react-draggable/typings",
+        "../@types"
+    ],
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   }
