@@ -122,6 +122,17 @@ export enum ResourceType {
   Secret = "Secret",
 }
 
+export enum ControlMode {
+    CreatePod,
+    CreateService,
+    CreateConfigMap,
+    CreateSecret,
+    UpdatePod,
+    UpdateService,
+    UpdateConfigMap,
+    Secret,
+}
+
 export type ControlModeType = {
   controlMode: ResourceType;
   setControlMode: (mode: ResourceType) => void;

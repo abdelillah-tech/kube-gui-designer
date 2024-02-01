@@ -1,19 +1,12 @@
 import { Form } from "formik";
-import {
-  ConfigSpec,
-  PodSpec,
-  SecretSpec,
-  ServiceSpec,
-} from "../../../contexts";
 
 interface IFormBody {
   children: any;
   title: string;
   submitTitle: string;
-  values: ConfigSpec | SecretSpec | PodSpec | ServiceSpec;
 }
 
-const FormBody = ({ children, title, submitTitle, values }: IFormBody) => (
+const FormBody = ({ children, title, submitTitle }: IFormBody) => (
   <Form className="flex flex-col h-full">
     <h1 className="font-bold text-2xl">{title}</h1>
     <div className="flex flex-col overflow-y-auto grow">{children}</div>
