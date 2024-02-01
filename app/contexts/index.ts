@@ -123,19 +123,19 @@ export enum ResourceType {
 }
 
 export enum ControlMode {
-    CreatePod,
-    CreateService,
-    CreateConfigMap,
-    CreateSecret,
-    UpdatePod,
-    UpdateService,
-    UpdateConfigMap,
-    Secret,
+  CreatePod,
+  CreateService,
+  CreateConfigMap,
+  CreateSecret,
+  UpdatePod,
+  UpdateService,
+  UpdateConfigMap,
+  UpdateSecret,
 }
 
 export type ControlModeType = {
-  controlMode: ResourceType;
-  setControlMode: (mode: ResourceType) => void;
+  controlMode: ControlMode;
+  setControlMode: (mode: ControlMode) => void;
 };
 
 export type KubeComponentsType = {

@@ -4,18 +4,18 @@ import SecretCreationForm from "./forms/secret.form";
 import PodCreationForm from "./forms/pod.form";
 import ConfigMapCreationForm from "./forms/config-map.form";
 import ServiceCreationForm from "./forms/service.form";
-import { ControlBarContext, ResourceType } from "../../contexts";
+import { ControlBarContext, ControlMode } from "../../contexts";
 
 const ControlBar = () => {
   const { controlMode } = useContext(ControlBarContext);
 
-  const getCreationForm = (controlType: ResourceType) => {
-    switch (controlType) {
-      case ResourceType.Service:
+  const getCreationForm = (controlMode: ControlMode) => {
+    switch (controlMode) {
+      case ControlMode.CreateService:
         return <ServiceCreationForm />;
-      case ResourceType.ConfigMap:
+      case ControlMode.CreateConfigMap:
         return <ConfigMapCreationForm />;
-      case ResourceType.Secret:
+      case ControlMode.CreateSecret:
         return <SecretCreationForm />;
       default:
         return <PodCreationForm />;
