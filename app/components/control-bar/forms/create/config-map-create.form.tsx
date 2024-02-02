@@ -1,12 +1,12 @@
 import { FieldArray, Formik } from "formik";
 
 import { useContext } from "react";
-import { KubeComponentsContext, ConfigSpec } from "../../../contexts";
-import { ConfigCreationSchema } from "../form-validation";
-import SimpleField from "../custom-fields/simple-field";
-import AddRemoveController from "../custom-fields/add-remove-controller";
-import NameValueField from "../custom-fields/name-value-field";
-import FormBody from "../helpers/form-body";
+import { KubeComponentsContext, ConfigSpec } from "../../../../contexts";
+import { ConfigCreationSchema } from "../../form-validation";
+import SimpleField from "../../custom-fields/simple-field";
+import AddRemoveController from "../../custom-fields/add-remove-controller";
+import NameValueField from "../../custom-fields/name-value-field";
+import CreateFormBody from "../../helpers/create-form-body";
 
 const ConfigMapCreationForm = () => {
   const { createConfigMap } = useContext(KubeComponentsContext);
@@ -20,16 +20,16 @@ const ConfigMapCreationForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={ConfigCreationSchema}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
-          console.log(values);
           createConfigMap(values);
           setSubmitting(false);
+          resetForm();
         }, 400);
       }}
     >
       {({ values }) => (
-        <FormBody
+        <CreateFormBody
           title="Create Config Map"
           submitTitle="Add a Config"
         >
@@ -67,7 +67,7 @@ const ConfigMapCreationForm = () => {
               </div>
             )}
           />
-        </FormBody>
+        </CreateFormBody>
       )}
     </Formik>
   );

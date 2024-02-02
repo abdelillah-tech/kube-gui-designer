@@ -1,13 +1,21 @@
-
 import { useContext } from "react";
-import SecretCreationForm from "./forms/secret.form";
-import PodCreationForm from "./forms/pod.form";
-import ConfigMapCreationForm from "./forms/config-map.form";
-import ServiceCreationForm from "./forms/service.form";
-import { ControlBarContext, ControlMode } from "../../contexts";
+import SecretCreationForm from "./forms/create/secret-create.form";
+import PodCreationForm from "./forms/create/pod-create.form";
+import ConfigMapCreationForm from "./forms/create/config-map-create.form";
+import ServiceCreationForm from "./forms/create/service-create.form";
+import {
+  ConfigSpec,
+  ControlBarContext,
+  ControlMode,
+  SecretSpec,
+  ServiceSpec,
+} from "../../contexts";
+import ConfigMapUpdateForm from "./forms/update/config-map-update.form";
+import SecretUpdateForm from "./forms/update/secret-update.form";
+import ServiceUpdateForm from "./forms/update/service-update.form";
 
 const ControlBar = () => {
-  const { controlMode } = useContext(ControlBarContext);
+  const { controlMode, spec } = useContext(ControlBarContext);
 
   const getCreationForm = (controlMode: ControlMode) => {
     switch (controlMode) {
@@ -17,17 +25,19 @@ const ControlBar = () => {
         return <ConfigMapCreationForm />;
       case ControlMode.CreateSecret:
         return <SecretCreationForm />;
+      case ControlMode.UpdateConfigMap:
+        return <ConfigMapUpdateForm spec={spec as ConfigSpec} />;
+      case ControlMode.UpdateSecret:
+        return <SecretUpdateForm spec={spec as SecretSpec} />;
+      case ControlMode.UpdateService:
+        return <ServiceUpdateForm spec={spec as ServiceSpec} />;
       default:
         return <PodCreationForm />;
     }
   };
 
   return (
-    <aside className="w-1/5 border-r-2 h-full p-1">
-      <div className="flex flex-col h-full">
-        { getCreationForm(controlMode) }
-      </div>
-    </aside>
+    <div className="flex flex-col h-full">{getCreationForm(controlMode)}</div>
   );
 };
 

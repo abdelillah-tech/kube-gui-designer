@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
-import { ResourceType, ControlModeType, ControlMode } from ".";
+import { ControlModeType, ControlMode, SpecType } from ".";
 
 const defaultControlMode = {
   controlMode: ControlMode.CreatePod,
-  setControlMode: () => {},
+  spec: undefined,
+  setControl: () => {},
 };
 
 export const ControlBarContext =
@@ -11,8 +12,15 @@ export const ControlBarContext =
 
 const ControlModeProvider = ({ children }) => {
   const [controlMode, setControlMode] = useState(ControlMode.CreatePod);
+  const [spec, setSpec] = useState<SpecType>();
+
+  const setControl = (controlMode: ControlMode, spec?: SpecType) => {
+    setControlMode(controlMode);
+    setSpec(spec);
+  };
+
   return (
-    <ControlBarContext.Provider value={{ controlMode, setControlMode }}>
+    <ControlBarContext.Provider value={{ controlMode, spec, setControl }}>
       {children}
     </ControlBarContext.Provider>
   );

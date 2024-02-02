@@ -1,6 +1,15 @@
 import Draggable from "react-draggable";
-import { PodType, PodSpec, KubeComponentsContext } from "../../contexts";
+import {
+  PodType,
+  PodSpec,
+  KubeComponentsContext,
+  ConfigItem,
+  SecretItem,
+} from "../../contexts";
 import { useContext } from "react";
+import ConfigMapWidget from "../config-map/config-map-widget";
+import SecretWidget from "../secret/secret-widget";
+import ServiceWidget from "../service/service-widget";
 
 interface IPod {
   dragHandlers: {
@@ -13,6 +22,10 @@ interface IPod {
 
 const Pod = ({ dragHandlers, pod }: IPod) => {
   const { components } = useContext(KubeComponentsContext);
+
+  const getDistinctRefs = (array: (ConfigItem | SecretItem)[]) => [
+    ...new Set(array.map((item) => item.ref)),
+  ];
 
   return (
     <Draggable bounds="parent" handle=".pod-drag" {...dragHandlers}>
@@ -28,18 +41,14 @@ const Pod = ({ dragHandlers, pod }: IPod) => {
             <div className="text-xs">{`port: ${pod.port}`}</div>
           </div>
           {components.services[pod.port] && (
-            <div className="flex justify-between space-x-4 p-1 border rounded-md border-black">
-              <div className="text-xs">servive</div>
-              <div className="text-xs">
-                {components.services[pod.port].name}
-              </div>
-              <div className="text-xs">
-                {components.services[pod.port].port}
-              </div>
-            </div>
+            <ServiceWidget serviceSpec={components.services[pod.port]} />
           )}
-          <div className="m-1 border rounded-md border-black">Secrets</div>
-          <div className="m-1 border rounded-md border-black">Config map</div>
+          {getDistinctRefs(pod.configs).map((configRef, index) => (
+            <ConfigMapWidget key={index} configRef={configRef} />
+          ))}
+          {getDistinctRefs(pod.secrets).map((secretRef, index) => (
+            <SecretWidget key={index} secretRef={secretRef} />
+          ))}
         </div>
       </div>
     </Draggable>

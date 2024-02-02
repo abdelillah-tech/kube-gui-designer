@@ -9,6 +9,12 @@ import {
   Pods,
   PodType,
 } from ".";
+import {
+  addPodsOnNodes,
+  deleteConfigFromPods,
+  deletePodsFromNodes,
+  deleteSecretFromPods,
+} from "./kube-components.helper";
 
 const defaultKubeComponents: KubeComponentsType = {
   components: {
@@ -19,12 +25,15 @@ const defaultKubeComponents: KubeComponentsType = {
     services: {},
     configs: {},
     secrets: {},
-    envs: [],
   },
   createPods: (podSpec: PodSpec) => {},
   createService: (serviceSpec: ServiceSpec) => {},
   createConfigMap: (configMapSpec: ConfigSpec) => {},
   createSecret: (createSecret: SecretSpec) => {},
+  deletePod: (podName: string) => {},
+  deleteService: (servicePort: string) => {},
+  deleteConfigMap: (configRef: string) => {},
+  deleteSecret: (secretRef: string) => {},
 };
 
 export const KubeComponentsContext = createContext<KubeComponentsType>(
@@ -37,28 +46,18 @@ const KubeComponentsProvider = ({ children }) => {
   );
 
   const createPods = (podSpec: PodSpec) => {
-    let nodeId = podSpec.nodeId || "default";
     const newPods: Pods = {};
     for (let i = 0; i < podSpec.replicas; i++) {
       const pod: PodType = {
-        name: podSpec.name,
+        ...podSpec,
         podId: `${podSpec.name}-${i}`,
-        image: podSpec.image,
-        port: podSpec.port,
         namespace: podSpec.namespace || "default",
-        secrets: podSpec.secrets,
-        configs: podSpec.configs,
-        envs: podSpec.envs,
       };
 
       newPods[pod.podId] = pod;
     }
 
-    const nodes = components.nodes;
-    const podIds: string[] = nodes[nodeId] || [];
-    podIds.push(...Object.values(newPods).map((pod) => pod.podId));
-    nodes[nodeId] = podIds;
-
+    const nodes = addPodsOnNodes(podSpec.nodeId, components.nodes, newPods);
     const pods = { ...components.pods, ...newPods };
 
     setComponents((prevValue) => ({
@@ -98,6 +97,46 @@ const KubeComponentsProvider = ({ children }) => {
     }));
   };
 
+  const deletePod = (podName: string) => {
+    const nodes = deletePodsFromNodes(podName, components.nodes);
+    delete components.pods[podName];
+    setComponents((prevValue) => ({
+      ...prevValue,
+      nodes: nodes,
+      pods: components.pods,
+    }));
+  };
+
+  const deleteService = (servicePort: string) => {
+    delete components.services[servicePort];
+    setComponents((prevValue) => ({
+      ...prevValue,
+      services: components.services,
+    }));
+  };
+
+  const deleteSecret = (secretRef: string) => {
+    const pods = deleteSecretFromPods(secretRef, components.pods);
+
+    delete components.secrets[secretRef];
+    setComponents((prevValue) => ({
+      ...prevValue,
+      pods: pods,
+      secrets: components.secrets,
+    }));
+  };
+
+  const deleteConfigMap = (configRef: string) => {
+    const pods = deleteConfigFromPods(configRef, components.pods);
+
+    delete components.configs[configRef];
+    setComponents((prevValue) => ({
+      ...prevValue,
+      pods: pods,
+      configs: components.configs,
+    }));
+  };
+
   return (
     <KubeComponentsContext.Provider
       value={{
@@ -106,6 +145,10 @@ const KubeComponentsProvider = ({ children }) => {
         createService,
         createConfigMap,
         createSecret,
+        deletePod,
+        deleteService,
+        deleteSecret,
+        deleteConfigMap,
       }}
     >
       {children}

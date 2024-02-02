@@ -3,7 +3,7 @@ import KubeComponentsProvider, {
   KubeComponentsContext,
 } from "./kube-components.provider";
 
-export type Node = {
+export type Nodes = {
   [nodeId: string]: string[];
 };
 
@@ -18,6 +18,8 @@ export type PodSpec = {
   name: string;
   nodeId?: string;
   replicas: number;
+  containerName: string;
+  limits: { memory: string; cpu: string };
   image: string;
   port: number;
   namespace?: string;
@@ -41,6 +43,8 @@ export type ConfigItem = {
 export type PodType = {
   name: string;
   podId: string;
+  containerName: string;
+  limits: { memory: string; cpu: string };
   image: string;
   port: number;
   namespace?: string;
@@ -107,12 +111,11 @@ export type Secret = {
 };
 
 export type Components = {
-  nodes: Node;
+  nodes: Nodes;
   pods: Pods;
   services: Services;
   configs: Configs;
   secrets: Secrets;
-  envs: NameValue[];
 };
 
 export enum ResourceType {
@@ -133,9 +136,12 @@ export enum ControlMode {
   UpdateSecret,
 }
 
+export type SpecType = ConfigSpec | SecretSpec | ServiceSpec | PodSpec;
+
 export type ControlModeType = {
   controlMode: ControlMode;
-  setControlMode: (mode: ControlMode) => void;
+  spec?: SpecType;
+  setControl: (mode: ControlMode, spec?: SpecType) => void;
 };
 
 export type KubeComponentsType = {
@@ -144,6 +150,10 @@ export type KubeComponentsType = {
   createService: (serviceSpec: ServiceSpec) => void;
   createConfigMap: (configMapSpec: ConfigSpec) => void;
   createSecret: (createSecret: SecretSpec) => void;
+  deletePod: (podName: string) => void;
+  deleteService: (servicePort: string) => void;
+  deleteConfigMap: (configRef: string) => void;
+  deleteSecret: (secretRef: string) => void;
 };
 
 export {

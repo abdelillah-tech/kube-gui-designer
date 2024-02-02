@@ -1,26 +1,27 @@
 import { useContext } from "react";
-
-import { FieldArray, Formik } from "formik";
 import {
+  ControlBarContext,
+  ControlMode,
   KubeComponentsContext,
   SecretSpec,
   SecretType,
-} from "../../../contexts";
-import { SecretCreationSchema } from "../form-validation";
-import SimpleField from "../custom-fields/simple-field";
-import AddRemoveController from "../custom-fields/add-remove-controller";
-import NameValueField from "../custom-fields/name-value-field";
-import SelectField from "../custom-fields/select-field";
-import FormBody from "../helpers/form-body";
+} from "../../../../contexts";
+import { SecretCreationSchema } from "../../form-validation";
+import { FieldArray, Formik } from "formik";
+import UpdateFormBody from "../../helpers/update-form-body";
+import AddRemoveController from "../../custom-fields/add-remove-controller";
+import NameValueField from "../../custom-fields/name-value-field";
+import SelectField from "../../custom-fields/select-field";
 
-const SecretCreationForm = () => {
-  const { createSecret } = useContext(KubeComponentsContext);
+interface ISecretUpdateForm {
+  spec: SecretSpec;
+}
 
-  const initialValues: SecretSpec = {
-    name: "",
-    type: SecretType.Opaque,
-    secrets: [],
-  };
+const SecretUpdateForm = ({ spec }: ISecretUpdateForm) => {
+  const { deleteSecret } = useContext(KubeComponentsContext);
+  const { setControl } = useContext(ControlBarContext);
+
+  const initialValues: SecretSpec = { ...spec };
 
   return (
     <Formik
@@ -28,14 +29,19 @@ const SecretCreationForm = () => {
       validationSchema={SecretCreationSchema}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          createSecret(values);
           setSubmitting(false);
+          setControl(ControlMode.CreatePod);
         }, 400);
       }}
     >
       {({ values }) => (
-        <FormBody title="Create Secret" submitTitle="Create a Secret">
-          <SimpleField label="Name" name="name" type="text" />
+        <UpdateFormBody
+          title="Update Secret"
+          deleteComponent={() => deleteSecret(spec.name)}
+        >
+          <label>Name:</label>
+          <div className="border rounded-md p-1">{spec.name}</div>
+          
           <SelectField label="Type" name="type" options={[SecretType.Opaque]} />
           <label>Secrets:</label>
           <FieldArray
@@ -66,10 +72,10 @@ const SecretCreationForm = () => {
               </div>
             )}
           />
-        </FormBody>
+        </UpdateFormBody>
       )}
     </Formik>
   );
 };
 
-export default SecretCreationForm;
+export default SecretUpdateForm;

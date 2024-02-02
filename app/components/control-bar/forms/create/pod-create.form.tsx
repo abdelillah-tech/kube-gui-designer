@@ -1,14 +1,14 @@
 import { FieldArray, Formik } from "formik";
 
 import { useContext } from "react";
-import { KubeComponentsContext, PodSpec } from "../../../contexts";
-import { PodCreationSchema } from "../form-validation";
-import SimpleField from "../custom-fields/simple-field";
-import AddRemoveController from "../custom-fields/add-remove-controller";
-import PodSecretField from "../custom-fields/pod-secret-field";
-import PodConfigField from "../custom-fields/pod-config-field";
-import NameValueField from "../custom-fields/name-value-field";
-import FormBody from "../helpers/form-body";
+import { KubeComponentsContext, PodSpec } from "../../../../contexts";
+import { PodCreationSchema } from "../../form-validation";
+import SimpleField from "../../custom-fields/simple-field";
+import AddRemoveController from "../../custom-fields/add-remove-controller";
+import PodSecretField from "../../custom-fields/pod-secret-field";
+import PodConfigField from "../../custom-fields/pod-config-field";
+import NameValueField from "../../custom-fields/name-value-field";
+import CreateFormBody from "../../helpers/create-form-body";
 
 const PodCreationForm = () => {
   const { createPods, components } = useContext(KubeComponentsContext);
@@ -23,21 +23,27 @@ const PodCreationForm = () => {
     secrets: [],
     configs: [],
     envs: [],
+    containerName: "",
+    limits: {
+      memory: "",
+      cpu: "",
+    },
   };
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={PodCreationSchema}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           createPods(values);
           setSubmitting(false);
+          resetForm();
         }, 400);
       }}
     >
       {({ values }) => (
-        <FormBody title="Create Pod" submitTitle="Create a Pod">
+        <CreateFormBody title="Create Pod" submitTitle="Create a Pod">
           <SimpleField label="Name" name="name" type="text" />
 
           <SimpleField label="Node ID" name="nodeId" type="text" />
@@ -45,6 +51,16 @@ const PodCreationForm = () => {
           <SimpleField label="Replicas" name="replicas" type="number" />
 
           <SimpleField label="Port" name="port" type="number" />
+
+          <SimpleField
+            label="Container Name"
+            name="containerName"
+            type="text"
+          />
+
+          <SimpleField label="Memory limit" name="limits.memory" type="text" />
+
+          <SimpleField label="CPU limit" name="limits.cpu" type="text" />
 
           <SimpleField label="Image" name="image" type="text" />
 
@@ -110,7 +126,7 @@ const PodCreationForm = () => {
               </div>
             )}
           />
-          <label>Envs:</label>
+          <label>Environments:</label>
           <FieldArray
             name="envs"
             render={(arrayHelpers) => (
@@ -142,7 +158,7 @@ const PodCreationForm = () => {
               </div>
             )}
           />
-        </FormBody>
+        </CreateFormBody>
       )}
     </Formik>
   );

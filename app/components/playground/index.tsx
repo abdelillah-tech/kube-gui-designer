@@ -21,7 +21,9 @@ const Playground = () => {
 
   return (
     <>
-      <ControlBar />
+      <aside className="w-1/5 border-r-2 h-full p-1">
+        <ControlBar />
+      </aside>
       <div className="flex flex-col h-full w-4/5">
         <div className="flex justify-end w-full">
           <TopBar />

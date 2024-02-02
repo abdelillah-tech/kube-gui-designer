@@ -5,11 +5,12 @@ import {
   KubeComponentsContext,
   ServiceSpec,
   Protocol,
-} from "../../../contexts";
-import { ServiceCreationSchema } from "../form-validation";
-import SimpleField from "../custom-fields/simple-field";
-import SelectField from "../custom-fields/select-field";
-import FormBody from "../helpers/form-body";
+} from "../../../../contexts";
+import { ServiceCreationSchema } from "../../form-validation";
+import SimpleField from "../../custom-fields/simple-field";
+import SelectField from "../../custom-fields/select-field";
+import CreateFormBody from "../../helpers/create-form-body";
+
 
 const ServiceCreationForm = () => {
   const { createService } = useContext(KubeComponentsContext);
@@ -26,15 +27,16 @@ const ServiceCreationForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={ServiceCreationSchema}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           createService(values);
           setSubmitting(false);
+          resetForm();
         }, 400);
       }}
     >
       {() => (
-        <FormBody title="Create Service" submitTitle="Create a Service">
+        <CreateFormBody title="Create Service" submitTitle="Create a Service">
           <SimpleField label="Name" name="name" type="text" />
 
           <SimpleField label="Port" name="port" type="number" />
@@ -48,7 +50,7 @@ const ServiceCreationForm = () => {
           />
 
           <SimpleField label="Namespace" name="namespace" type="text" />
-        </FormBody>
+        </CreateFormBody>
       )}
     </Formik>
   );

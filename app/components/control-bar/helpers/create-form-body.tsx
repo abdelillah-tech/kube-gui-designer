@@ -6,7 +6,7 @@ interface IFormBody {
   submitTitle: string;
 }
 
-const FormBody = ({ children, title, submitTitle }: IFormBody) => (
+const CreateFormBody = ({ children, title, submitTitle }: IFormBody) => (
   <Form className="flex flex-col h-full">
     <h1 className="font-bold text-2xl">{title}</h1>
     <div className="flex flex-col overflow-y-auto grow">{children}</div>
@@ -19,4 +19,4 @@ const FormBody = ({ children, title, submitTitle }: IFormBody) => (
   </Form>
 );
 
-export default FormBody;
+export default CreateFormBody;

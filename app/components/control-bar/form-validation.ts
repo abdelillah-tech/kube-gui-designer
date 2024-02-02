@@ -5,7 +5,11 @@ const DOCKER_NAME_TAG_REGEX =
 
 const KUBE_NAME_REGEX = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
 
-const ENV_VALUE_VARIABLE_REGEX = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
+const ENV_NAME_REGEX = /^[a-zA-Z0-9_]+$/;
+const ENV_VALUE_REGEX = KUBE_NAME_REGEX;
+
+const MEMORY_LIMIT_REGEX = /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/;
+const CPU_LIMIT_REGEX = /^[0-9]+m?$/;
 
 const NODE_PORT_RANGE = { min: 30000, max: 32767 };
 const ETCD_PORT_RANGE = { min: 2379, max: 2380 };
@@ -24,6 +28,9 @@ export const PodCreationSchema = Yup.object().shape({
   replicas: Yup.number()
     .min(1, "Too Short!")
     .max(5, "Too Long!")
+    .required("Required"),
+  containerName: Yup.string()
+    .matches(ENV_NAME_REGEX, "format is wrong!")
     .required("Required"),
   image: Yup.string()
     .matches(DOCKER_NAME_TAG_REGEX, "format is wrong!")
@@ -44,6 +51,14 @@ export const PodCreationSchema = Yup.object().shape({
       "This port is reserved"
     )
     .required("Required"),
+  limits: Yup.object({
+    memory: Yup.string()
+      .matches(MEMORY_LIMIT_REGEX, "format is wrong!")
+      .required("Required"),
+    cpu: Yup.string()
+      .matches(CPU_LIMIT_REGEX, "format is wrong!")
+      .required("Required"),
+  }),
   namespace: Yup.string()
     .matches(KUBE_NAME_REGEX, "format is wrong!")
     .min(1, "Too Short!")
@@ -51,35 +66,35 @@ export const PodCreationSchema = Yup.object().shape({
   secrets: Yup.array().of(
     Yup.object({
       name: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
       ref: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_VALUE_REGEX, "format is wrong!")
         .required("Required"),
       key: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
     })
   ),
   configs: Yup.array().of(
     Yup.object({
       name: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
       ref: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_VALUE_REGEX, "format is wrong!")
         .required("Required"),
       key: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
     })
   ),
   envs: Yup.array().of(
     Yup.object({
       name: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
-      value: Yup.string().matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!"),
+      value: Yup.string().matches(ENV_VALUE_REGEX, "format is wrong!"),
     })
   ),
 });
@@ -137,9 +152,9 @@ export const ConfigCreationSchema = Yup.object().shape({
   configs: Yup.array().of(
     Yup.object({
       name: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
-      value: Yup.string().matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!"),
+      value: Yup.string().matches(ENV_VALUE_REGEX, "format is wrong!"),
     })
   ),
 });
@@ -153,9 +168,9 @@ export const SecretCreationSchema = Yup.object().shape({
   secrets: Yup.array().of(
     Yup.object({
       name: Yup.string()
-        .matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!")
+        .matches(ENV_NAME_REGEX, "format is wrong!")
         .required("Required"),
-      value: Yup.string().matches(ENV_VALUE_VARIABLE_REGEX, "format is wrong!"),
+      value: Yup.string().matches(ENV_VALUE_REGEX, "format is wrong!"),
     })
   ),
 });

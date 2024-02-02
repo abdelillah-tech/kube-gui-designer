@@ -2,21 +2,21 @@ import { useContext } from "react";
 import { ControlBarContext, ControlMode, ResourceType } from "../../contexts";
 
 const TopBar = () => {
-  const { setControlMode } = useContext(ControlBarContext);
+  const { setControl } = useContext(ControlBarContext);
 
   const handleClick = (type: ResourceType) => {
     switch (type) {
       case ResourceType.Pod:
-        setControlMode(ControlMode.CreatePod);
+        setControl(ControlMode.CreatePod);
         break;
       case ResourceType.Secret:
-        setControlMode(ControlMode.CreateSecret);
+        setControl(ControlMode.CreateSecret);
         break;
       case ResourceType.ConfigMap:
-        setControlMode(ControlMode.CreateConfigMap);
+        setControl(ControlMode.CreateConfigMap);
         break;
       case ResourceType.Service:
-        setControlMode(ControlMode.CreateService);
+        setControl(ControlMode.CreateService);
         break;
     }
   };
