@@ -8,8 +8,8 @@ interface IFormBody {
 
 const CreateFormBody = ({ children, title, submitTitle }: IFormBody) => (
   <Form className="flex flex-col h-full">
-    <h1 className="font-bold text-2xl">{title}</h1>
-    <div className="flex flex-col overflow-y-auto grow">{children}</div>
+    <h1 className="font-bold text-2xl pb-3 text-gray-800">{title}</h1>
+    <div className="flex flex-col overflow-y-auto space-y-2 grow">{children}</div>
     <div className="p-2">
       <button
         type="submit"

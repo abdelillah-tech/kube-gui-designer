@@ -21,7 +21,7 @@ const PodConfigField = ({
   <div key={index} className="inline-block">
     <div
       key={index}
-      className="flex justify-between items-center border rounded-md p-1"
+      className="flex justify-between items-center rounded-md p-1"
     >
       <div className="flex flex-col space-y-1">
         <div>
@@ -50,7 +50,11 @@ const PodConfigField = ({
           )}
         </div>
       </div>
-      <AddRemoveController index={index} arrayHelpers={arrayHelpers} />
+      <AddRemoveController
+        index={index}
+        arrayHelpers={arrayHelpers}
+        initInsetedValue={{ name: "", ref: "", key: "" }}
+      />
     </div>
   </div>
 );

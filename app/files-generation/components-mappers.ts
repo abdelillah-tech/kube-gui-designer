@@ -1,10 +1,13 @@
 import { Configs, ConfigSpec } from "../components/shared/config-map-types";
-import { Pods, PodSpec, ConfigItem, SecretItem } from "../components/shared/pod-types";
+import {
+  Pods,
+  PodSpec,
+  ConfigItem,
+  SecretItem,
+} from "../components/shared/pod-types";
 import { Secrets, SecretSpec } from "../components/shared/secret-types";
 import { Services, ServiceSpec } from "../components/shared/service-types";
 import { Components, NameValue } from "../components/shared/types";
-
-;
 
 export const mapComponents = (components: Components) => {
   return [
@@ -37,7 +40,7 @@ const mapSecrets = (secrets: Secrets) => {
 
 const mapConfig = (configSpec: ConfigSpec) => {
   return {
-    apiVersion: "v1",
+    apiVersion: "apps/v1",
     kind: "ConfigMap",
     metadata: {
       name: configSpec.name,
@@ -51,7 +54,7 @@ const mapConfig = (configSpec: ConfigSpec) => {
 
 const mapSecret = (secretSpec: SecretSpec) => {
   return {
-    apiVersion: "v1",
+    apiVersion: "apps/v1",
     kind: "Secret",
     metadata: {
       name: secretSpec.name,
@@ -66,7 +69,7 @@ const mapSecret = (secretSpec: SecretSpec) => {
 
 const mapService = (configSpec: ServiceSpec) => {
   return {
-    apiVersion: "v1",
+    apiVersion: "apps/v1",
     kind: "Service",
     metadata: {
       name: configSpec.name,

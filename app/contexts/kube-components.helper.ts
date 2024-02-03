@@ -1,4 +1,5 @@
-import { Nodes, Pods } from ".";
+import { Nodes } from "../components/shared/node-types";
+import { Pods } from "../components/shared/pod-types";
 
 export const addPodsOnNodes = (
   nodeId: string = "default",

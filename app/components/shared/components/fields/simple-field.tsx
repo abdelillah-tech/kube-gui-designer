@@ -7,15 +7,17 @@ interface ISimpleField {
 }
 
 const SimpleField = ({ label, name, type }: ISimpleField) => (
-  <>
-    <label className="font-bold text-gray-800">{`${label}:`}</label>
-    <Field type={type} name={name} className="border rounded-md p-1" />
+  <div className="flex flex-col">
+    <div className="grid grid-cols-3">
+      <label className="font-bold text-gray-800">{`${label}:`}</label>
+      <Field type={type} name={name} className="col-span-2 border rounded-md p-1" />
+    </div>
     <ErrorMessage
       name={name}
       component="div"
       className="text-red-500 text-xs"
     />
-  </>
+  </div>
 );
 
 export default SimpleField;

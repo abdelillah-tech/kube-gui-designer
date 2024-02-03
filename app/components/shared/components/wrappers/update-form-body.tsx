@@ -8,7 +8,7 @@ interface IFormBody {
 
 const UpdateFormBody = ({ children, title, deleteComponent }: IFormBody) => (
   <Form className="flex flex-col h-full">
-    <h1 className="font-bold text-2xl">{title}</h1>
+    <h1 className="font-bold text-2xl pb-3 text-gray-800">{title}</h1>
     <div className="flex flex-col overflow-y-auto grow">{children}</div>
     <div className="flex w-full p-2 space-x-1">
       <button

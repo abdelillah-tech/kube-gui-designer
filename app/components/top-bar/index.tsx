@@ -8,27 +8,27 @@ const TopBar = () => {
 
   return (
     <>
-        <div className="flex justify-between space-x-1">
-          <StandardButton
-            text="Add Pod"
-            handler={() => setControl(ControlMode.CreatePod)}
-          />
-          <StandardButton
-            text="Add Service"
-            handler={() => setControl(ControlMode.CreateService)}
-          />
-          <StandardButton
-            text="Add ConfigMap"
-            handler={() => setControl(ControlMode.CreateConfigMap)}
-          />
-          <StandardButton
-            text="Add Secrets"
-            handler={() => setControl(ControlMode.CreateSecret)}
-          />
-        </div>
-        <div>
-          <ResultModal />
-        </div>
+      <div className="flex justify-between space-x-1">
+        <StandardButton
+          text="Add Pod"
+          handler={() => setControl(ControlMode.CreatePod)}
+        />
+        <StandardButton
+          text="Add Service"
+          handler={() => setControl(ControlMode.CreateService)}
+        />
+        <StandardButton
+          text="Add ConfigMap"
+          handler={() => setControl(ControlMode.CreateConfigMap)}
+        />
+        <StandardButton
+          text="Add Secrets"
+          handler={() => setControl(ControlMode.CreateSecret)}
+        />
+      </div>
+      <div>
+        <ResultModal />
+      </div>
     </>
   );
 };

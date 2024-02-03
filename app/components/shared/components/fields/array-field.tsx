@@ -8,7 +8,7 @@ interface IArrayField {
   label: string;
 }
 
-const ArrayField = ({ items, name , label }: IArrayField) => (
+const ArrayField = ({ items, name, label }: IArrayField) => (
   <>
     <label className="font-bold text-gray-800">{`${label}:`}</label>
     <FieldArray
@@ -26,6 +26,7 @@ const ArrayField = ({ items, name , label }: IArrayField) => (
                   <AddRemoveController
                     index={index}
                     arrayHelpers={arrayHelpers}
+                    initInsetedValue={{ name: "", value: "" }}
                   />
                 </div>
               </div>

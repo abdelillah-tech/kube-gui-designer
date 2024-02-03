@@ -86,7 +86,9 @@ const PodCreationForm = () => {
                         arrayHelpers={arrayHelpers}
                       />
                     ) : (
-                      <div className="text-center font-bold text-gray-800">No ConfigMap defined</div>
+                      <div className="text-center font-bold text-gray-800">
+                        No ConfigMap defined
+                      </div>
                     )
                   )
                 ) : (
@@ -113,7 +115,9 @@ const PodCreationForm = () => {
                         arrayHelpers={arrayHelpers}
                       />
                     ) : (
-                      <div className="text-center font-bold text-gray-800">No Secret defined</div>
+                      <div className="text-center font-bold text-gray-800">
+                        No Secret defined
+                      </div>
                     )
                   )
                 ) : (
@@ -141,6 +145,7 @@ const PodCreationForm = () => {
                         <AddRemoveController
                           index={index}
                           arrayHelpers={arrayHelpers}
+                          initInsetedValue={{ name: "", value: "" }}
                         />
                       </div>
                     </div>

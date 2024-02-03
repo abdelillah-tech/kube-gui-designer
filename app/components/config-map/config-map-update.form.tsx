@@ -29,7 +29,6 @@ const ConfigMapUpdateForm = ({ spec }: IConfigMapUpdateForm) => {
       validationSchema={ConfigSchema}
       enableReinitialize
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
         setTimeout(() => {
           createConfigMap(values);
           setSubmitting(false);
