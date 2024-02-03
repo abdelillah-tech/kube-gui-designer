@@ -63,6 +63,11 @@ export const PodCreationSchema = Yup.object().shape({
     .matches(KUBE_NAME_REGEX, "format is wrong!")
     .min(1, "Too Short!")
     .max(253, "Too Long!"),
+  label: Yup.string()
+    .matches(KUBE_NAME_REGEX, "format is wrong!")
+    .min(1, "Too Short!")
+    .max(253, "Too Long!")
+    .required("Required"),
   secrets: Yup.array().of(
     Yup.object({
       name: Yup.string()
@@ -141,6 +146,11 @@ export const ServiceCreationSchema = Yup.object().shape({
     .matches(KUBE_NAME_REGEX, "format is wrong!")
     .min(1, "Too Short!")
     .max(253, "Too Long!"),
+  label: Yup.string()
+    .matches(KUBE_NAME_REGEX, "format is wrong!")
+    .min(1, "Too Short!")
+    .max(253, "Too Long!")
+    .required("Required"),
 });
 
 export const ConfigCreationSchema = Yup.object().shape({

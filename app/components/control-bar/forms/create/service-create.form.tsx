@@ -43,6 +43,8 @@ const ServiceCreationForm = () => {
 
           <SimpleField label="Target Port" name="targetPort" type="number" />
 
+          <SimpleField label="Label" name="label" type="text" />
+
           <SelectField
             label="Protocol"
             name="protocol"

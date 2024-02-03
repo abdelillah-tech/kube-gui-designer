@@ -23,6 +23,7 @@ export type PodSpec = {
   image: string;
   port: number;
   namespace?: string;
+  label: string;
   secrets: SecretItem[];
   configs: ConfigItem[];
   envs: NameValue[];
@@ -40,17 +41,8 @@ export type ConfigItem = {
   key: string;
 };
 
-export type PodType = {
-  name: string;
+export type PodType = PodSpec & {
   podId: string;
-  containerName: string;
-  limits: { memory: string; cpu: string };
-  image: string;
-  port: number;
-  namespace?: string;
-  secrets: SecretItem[];
-  configs: ConfigItem[];
-  envs: NameValue[];
 };
 
 export type NameValue = {
@@ -69,6 +61,7 @@ export type ServiceSpec = {
   port: number;
   targetPort: number;
   namespace?: string;
+  label?: string;
 };
 
 export type Services = {
@@ -87,7 +80,7 @@ export type Config = {
 };
 
 export type Configs = {
-  [name: string]: Config;
+  [name: string]: ConfigSpec;
 };
 
 // Secret

@@ -1,12 +1,46 @@
 import {
+  Components,
   ConfigItem,
   ConfigSpec,
+  Configs,
   NameValue,
   PodSpec,
+  Pods,
   SecretItem,
   SecretSpec,
+  Secrets,
   ServiceSpec,
+  Services,
 } from "../contexts";
+
+export const mapComponents = (components: Components) => {
+  return [
+    ...mapPods(components.pods),
+    ...mapServices(components.services),
+    ...mapConfigs(components.configs),
+    ...mapSecrets(components.secrets),
+  ];
+};
+
+const mapPods = (pods: Pods) => {
+  return [
+    ...new Map(
+      Object.values(pods).map((pod) => [pod["name"], mapPod(pod)])
+    ).values(),
+  ];
+};
+
+const mapServices = (service: Services) => {
+  return Object.values(service).map((serviceSpec) => mapService(serviceSpec));
+};
+
+const mapConfigs = (configs: Configs) => {
+  return Object.values(configs).map((configSpec) => mapConfig(configSpec));
+};
+
+const mapSecrets = (secrets: Secrets) => {
+  return Object.values(secrets).map((secretSpec) => mapSecret(secretSpec));
+};
 
 const mapConfig = (configSpec: ConfigSpec) => {
   return {
@@ -37,7 +71,7 @@ const mapSecret = (secretSpec: SecretSpec) => {
   };
 };
 
-const mapServices = (configSpec: ServiceSpec) => {
+const mapService = (configSpec: ServiceSpec) => {
   return {
     apiVersion: "v1",
     kind: "Service",
@@ -46,20 +80,20 @@ const mapServices = (configSpec: ServiceSpec) => {
     },
     spec: {
       selector: {
-        app: "mongo",
+        app: configSpec.label,
       },
       ports: [
         {
           protocol: configSpec.protocol,
           port: configSpec.port,
-          targetPort: configSpec.port,
+          targetPort: configSpec.targetPort,
         },
       ],
     },
   };
 };
 
-const mapPods = (podSpec: PodSpec) => {
+const mapPod = (podSpec: PodSpec) => {
   return {
     apiVersion: "apps/v1",
     kind: "Deployment",
@@ -70,13 +104,13 @@ const mapPods = (podSpec: PodSpec) => {
       replicas: podSpec.replicas,
       selector: {
         matchLabels: {
-          app: "mongo",
+          app: podSpec.label,
         },
       },
       template: {
         metadata: {
           labels: {
-            app: "mongo",
+            app: podSpec.label,
           },
         },
         spec: {

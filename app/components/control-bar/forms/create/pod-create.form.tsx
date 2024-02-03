@@ -20,6 +20,7 @@ const PodCreationForm = () => {
     image: "",
     port: 80,
     namespace: "",
+    label: "",
     secrets: [],
     configs: [],
     envs: [],
@@ -65,6 +66,8 @@ const PodCreationForm = () => {
           <SimpleField label="Image" name="image" type="text" />
 
           <SimpleField label="Namespace" name="namespace" type="text" />
+
+          <SimpleField label="Label" name="label" type="text" />
 
           <label>Configs:</label>
           <FieldArray

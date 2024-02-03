@@ -1,8 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ControlBarContext, ControlMode, ResourceType } from "../../contexts";
+import ResultModal from "../result-modal";
 
 const TopBar = () => {
   const { setControl } = useContext(ControlBarContext);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClick = (type: ResourceType) => {
     switch (type) {
@@ -39,19 +41,20 @@ const TopBar = () => {
   };
 
   return (
-    <div className="flex justify-between border-b-2 w-full p-1">
-      <div className="flex justify-between space-x-1">
-        <ResourceButton text="Add Pod" type={ResourceType.Pod} />
-        <ResourceButton text="Add Service" type={ResourceType.Service} />
-        <ResourceButton text="Add ConfigMap" type={ResourceType.ConfigMap} />
-        <ResourceButton text="Add Secrets" type={ResourceType.Secret} />
+    <>
+      {showModal && <ResultModal />}
+      <div className="flex justify-between border-b-2 w-full p-1">
+        <div className="flex justify-between space-x-1">
+          <ResourceButton text="Add Pod" type={ResourceType.Pod} />
+          <ResourceButton text="Add Service" type={ResourceType.Service} />
+          <ResourceButton text="Add ConfigMap" type={ResourceType.ConfigMap} />
+          <ResourceButton text="Add Secrets" type={ResourceType.Secret} />
+        </div>
+        <div>
+          <ResultModal />
+        </div>
       </div>
-      <div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          generate
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 
