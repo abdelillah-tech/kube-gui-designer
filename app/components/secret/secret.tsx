@@ -1,5 +1,7 @@
 import { useContext } from "react";
-import { ControlBarContext, ControlMode, SecretSpec } from "../../contexts";
+import { ControlBarContext, ControlMode } from "../../contexts";
+import { SecretSpec } from "../shared/secret-types";
+import SmallCard from "../shared/components/small-card";
 
 interface ISecret {
   secret: SecretSpec;
@@ -12,13 +14,9 @@ const Secret = ({ secret }: ISecret) => {
       className="inline-block"
       onClick={() => setControl(ControlMode.UpdateSecret, secret)}
     >
-      <div className="max-w-xs w-48 p-1 h-full border-2 rounded-md overflow-hidden ease-in-out">
-        <div className="pod-drag flex justify-between space-x-4">
-          <div className="text-xs">Secret</div>
-          <div className="text-xs">{secret.name}</div>
-        </div>
-        <div className="">{`Type: ${secret.type}`}</div>
-      </div>
+      <SmallCard label="Secret" title={secret.name}>
+        <div>{`Type: ${secret.type}`}</div>
+      </SmallCard>
     </div>
   );
 };

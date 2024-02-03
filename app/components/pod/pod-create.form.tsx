@@ -1,14 +1,16 @@
 import { FieldArray, Formik } from "formik";
 
 import { useContext } from "react";
-import { KubeComponentsContext, PodSpec } from "../../../../contexts";
-import { PodCreationSchema } from "../../form-validation";
-import SimpleField from "../../custom-fields/simple-field";
-import AddRemoveController from "../../custom-fields/add-remove-controller";
-import PodSecretField from "../../custom-fields/pod-secret-field";
-import PodConfigField from "../../custom-fields/pod-config-field";
-import NameValueField from "../../custom-fields/name-value-field";
-import CreateFormBody from "../../helpers/create-form-body";
+import { KubeComponentsContext } from "../../contexts";
+import SimpleField from "../shared/components/fields/simple-field";
+import AddRemoveController from "../shared/components/add-remove-controller";
+import PodSecretField from "../shared/components/fields/pod-secret-field";
+import PodConfigField from "../shared/components/fields/pod-config-field";
+import NameValueField from "../shared/components/fields/name-value-field";
+import CreateFormBody from "../shared/components/wrappers/create-form-body";
+import PodSchema from "./pod-validation";
+import { PodSpec } from "../shared/pod-types";
+import SmallButton from "../shared/components/buttons/small-button";
 
 const PodCreationForm = () => {
   const { createPods, components } = useContext(KubeComponentsContext);
@@ -34,7 +36,7 @@ const PodCreationForm = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={PodCreationSchema}
+      validationSchema={PodSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           createPods(values);
@@ -69,7 +71,7 @@ const PodCreationForm = () => {
 
           <SimpleField label="Label" name="label" type="text" />
 
-          <label>Configs:</label>
+          <label className="font-bold text-gray-800">Configs:</label>
           <FieldArray
             name="configs"
             render={(arrayHelpers) => (
@@ -84,22 +86,19 @@ const PodCreationForm = () => {
                         arrayHelpers={arrayHelpers}
                       />
                     ) : (
-                      <div className="text-center">No ConfigMap defined</div>
+                      <div className="text-center font-bold text-gray-800">No ConfigMap defined</div>
                     )
                   )
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.push("")}
-                    className="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold p-1 rounded-md"
-                  >
-                    Add a config
-                  </button>
+                  <SmallButton
+                    text="Add a config"
+                    handler={() => arrayHelpers.push("")}
+                  />
                 )}
               </div>
             )}
           />
-          <label>Secrets:</label>
+          <label className="font-bold text-gray-800">Secrets:</label>
           <FieldArray
             name="secrets"
             render={(arrayHelpers) => (
@@ -114,22 +113,19 @@ const PodCreationForm = () => {
                         arrayHelpers={arrayHelpers}
                       />
                     ) : (
-                      <div className="text-center">No Secret defined</div>
+                      <div className="text-center font-bold text-gray-800">No Secret defined</div>
                     )
                   )
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.push("")}
-                    className="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold p-1 rounded-md"
-                  >
-                    Add a secret
-                  </button>
+                  <SmallButton
+                    text="Add a secret"
+                    handler={() => arrayHelpers.push("")}
+                  />
                 )}
               </div>
             )}
           />
-          <label>Environments:</label>
+          <label className="font-bold text-gray-800">Environments:</label>
           <FieldArray
             name="envs"
             render={(arrayHelpers) => (
@@ -150,13 +146,10 @@ const PodCreationForm = () => {
                     </div>
                   ))
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.push("")}
-                    className="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold p-1 rounded-md"
-                  >
-                    Add an env
-                  </button>
+                  <SmallButton
+                    text="Add an env"
+                    handler={() => arrayHelpers.push("")}
+                  />
                 )}
               </div>
             )}

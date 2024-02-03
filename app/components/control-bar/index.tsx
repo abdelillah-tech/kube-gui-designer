@@ -1,18 +1,16 @@
 import { useContext } from "react";
-import SecretCreationForm from "./forms/create/secret-create.form";
-import PodCreationForm from "./forms/create/pod-create.form";
-import ConfigMapCreationForm from "./forms/create/config-map-create.form";
-import ServiceCreationForm from "./forms/create/service-create.form";
+
 import {
-  ConfigSpec,
   ControlBarContext,
   ControlMode,
-  SecretSpec,
-  ServiceSpec,
 } from "../../contexts";
-import ConfigMapUpdateForm from "./forms/update/config-map-update.form";
-import SecretUpdateForm from "./forms/update/secret-update.form";
-import ServiceUpdateForm from "./forms/update/service-update.form";
+import { ConfigMapCreationForm, ConfigMapUpdateForm } from "../config-map";
+import PodCreationForm from "../pod/pod-create.form";
+import { SecretCreationForm, SecretUpdateForm } from "../secret";
+import { ServiceCreationForm, ServiceUpdateForm } from "../service";
+import { ConfigSpec } from "../shared/config-map-types";
+import { SecretSpec } from "../shared/secret-types";
+import { ServiceSpec } from "../shared/service-types";
 
 const ControlBar = () => {
   const { controlMode, spec } = useContext(ControlBarContext);

@@ -1,4 +1,4 @@
-import { ServiceSpec } from "../../contexts";
+import { ServiceSpec } from "../shared/service-types";
 
 interface IServiceWidget {
   serviceSpec: ServiceSpec;

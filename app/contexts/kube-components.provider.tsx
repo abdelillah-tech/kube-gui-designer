@@ -1,20 +1,28 @@
 import { createContext, useState } from "react";
-import {
-  KubeComponentsType,
-  PodSpec,
-  ServiceSpec,
-  ConfigSpec,
-  SecretSpec,
-  Components,
-  Pods,
-  PodType,
-} from ".";
+
 import {
   addPodsOnNodes,
   deleteConfigFromPods,
   deletePodsFromNodes,
   deleteSecretFromPods,
 } from "./kube-components.helper";
+import { ConfigSpec } from "../components/shared/config-map-types";
+import { PodSpec, Pods, PodType } from "../components/shared/pod-types";
+import { SecretSpec } from "../components/shared/secret-types";
+import { ServiceSpec } from "../components/shared/service-types";
+import { Components } from "../components/shared/types";
+
+export type KubeComponentsType = {
+  components: Components;
+  createPods: (podSpec: PodSpec) => void;
+  createService: (serviceSpec: ServiceSpec) => void;
+  createConfigMap: (configMapSpec: ConfigSpec) => void;
+  createSecret: (createSecret: SecretSpec) => void;
+  deletePod: (podName: string) => void;
+  deleteService: (servicePort: number) => void;
+  deleteConfigMap: (configRef: string) => void;
+  deleteSecret: (secretRef: string) => void;
+};
 
 const defaultKubeComponents: KubeComponentsType = {
   components: {
@@ -31,7 +39,7 @@ const defaultKubeComponents: KubeComponentsType = {
   createConfigMap: (configMapSpec: ConfigSpec) => {},
   createSecret: (createSecret: SecretSpec) => {},
   deletePod: (podName: string) => {},
-  deleteService: (servicePort: string) => {},
+  deleteService: (servicePort: number) => {},
   deleteConfigMap: (configRef: string) => {},
   deleteSecret: (secretRef: string) => {},
 };
@@ -107,7 +115,7 @@ const KubeComponentsProvider = ({ children }) => {
     }));
   };
 
-  const deleteService = (servicePort: string) => {
+  const deleteService = (servicePort: number) => {
     delete components.services[servicePort];
     setComponents((prevValue) => ({
       ...prevValue,

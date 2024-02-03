@@ -1,22 +1,23 @@
 import { FieldArrayRenderProps } from "formik";
-import { SecretItem, Secrets } from "../../../contexts";
-import AddRemoveController from "./add-remove-controller";
+import AddRemoveController from "../add-remove-controller";
 import SelectField from "./select-field";
 import SimpleField from "./simple-field";
+import { Configs } from "../../config-map-types";
+import { ConfigItem } from "../../pod-types";
 
-interface IPodSecretField {
+interface IPodConfigField {
   index: number;
-  secrets: Secrets;
-  selected: SecretItem;
+  configs: Configs;
+  selected: ConfigItem;
   arrayHelpers: FieldArrayRenderProps;
 }
 
-const PodSecretField = ({
+const PodConfigField = ({
   index,
-  secrets,
+  configs,
   selected,
   arrayHelpers,
-}: IPodSecretField) => (
+}: IPodConfigField) => (
   <div key={index} className="inline-block">
     <div
       key={index}
@@ -26,24 +27,24 @@ const PodSecretField = ({
         <div>
           <SimpleField
             label="name"
-            name={`secrets.${index}.name`}
+            name={`configs.${index}.name`}
             type="text"
           />
         </div>
         <div>
           <SelectField
             label="ref"
-            name={`secrets.${index}.ref`}
-            options={Object.keys(secrets)}
+            name={`configs.${index}.ref`}
+            options={Object.keys(configs)}
           />
         </div>
         <div>
           {selected.ref && (
             <SelectField
               label="key"
-              name={`secrets.${index}.key`}
-              options={secrets[selected.ref].secrets.map(
-                (secret) => secret.name
+              name={`configs.${index}.key`}
+              options={configs[selected.ref].configs.map(
+                (config) => config.name
               )}
             />
           )}
@@ -54,4 +55,4 @@ const PodSecretField = ({
   </div>
 );
 
-export default PodSecretField;
+export default PodConfigField;

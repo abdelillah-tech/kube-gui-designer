@@ -1,7 +1,14 @@
 import { createContext, useState } from "react";
-import { ControlModeType, ControlMode, SpecType } from ".";
+import { ControlMode } from ".";
+import { SpecType } from "../components/shared/types";
 
-const defaultControlMode = {
+export type ControlModeType = {
+  controlMode: ControlMode;
+  spec?: SpecType;
+  setControl: (mode: ControlMode, spec?: SpecType) => void;
+};
+
+const defaultControlMode: ControlModeType = {
   controlMode: ControlMode.CreatePod,
   spec: undefined,
   setControl: () => {},

@@ -3,13 +3,12 @@ import { Formik } from "formik";
 import { useContext } from "react";
 import {
   KubeComponentsContext,
-  ServiceSpec,
-  Protocol,
-} from "../../../../contexts";
-import { ServiceCreationSchema } from "../../form-validation";
-import SimpleField from "../../custom-fields/simple-field";
-import SelectField from "../../custom-fields/select-field";
-import CreateFormBody from "../../helpers/create-form-body";
+} from "../../contexts";
+import SimpleField from "../shared/components/fields/simple-field";
+import SelectField from "../shared/components/fields/select-field";
+import CreateFormBody from "../shared/components/wrappers/create-form-body";
+import ServiceSchema from "./service-validation";
+import { ServiceSpec, Protocol } from "../shared/service-types";
 
 
 const ServiceCreationForm = () => {
@@ -21,12 +20,13 @@ const ServiceCreationForm = () => {
     targetPort: 80,
     protocol: Protocol.TCP,
     namespace: "",
+    label: "",
   };
 
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={ServiceCreationSchema}
+      validationSchema={ServiceSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           createService(values);

@@ -21,14 +21,14 @@ const Playground = () => {
 
   return (
     <>
-      <aside className="w-1/5 border-r-2 h-full p-1">
+      <aside className="w-1/5 h-full bg-orange-100 p-1">
         <ControlBar />
       </aside>
       <div className="flex flex-col h-full w-4/5">
-        <div className="flex justify-end w-full">
+        <div className="flex justify-between w-full p-1 bg-orange-100">
           <TopBar />
         </div>
-        <div className="relative h-full p-1">
+        <div className="relative h-full p-1 bg-orange-50">
           {Object.entries(components.nodes).map(([key, value], index) => (
             <Node
               key={index}
@@ -39,11 +39,13 @@ const Playground = () => {
             />
           ))}
         </div>
-        <BottomBar
-          services={Object.values(components.services)}
-          configs={Object.values(components.configs)}
-          secrets={Object.values(components.secrets)}
-        />
+        <div className="flex overflow-x-auto h-1/6 space-x-1 p-1 bg-orange-100 border border-gray-800">
+          <BottomBar
+            services={Object.values(components.services)}
+            configs={Object.values(components.configs)}
+            secrets={Object.values(components.secrets)}
+          />
+        </div>
       </div>
     </>
   );

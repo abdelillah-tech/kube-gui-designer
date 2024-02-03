@@ -1,15 +1,13 @@
 import Draggable from "react-draggable";
 import {
-  PodType,
-  PodSpec,
   KubeComponentsContext,
-  ConfigItem,
-  SecretItem,
 } from "../../contexts";
 import { useContext } from "react";
 import ConfigMapWidget from "../config-map/config-map-widget";
 import SecretWidget from "../secret/secret-widget";
 import ServiceWidget from "../service/service-widget";
+import { PodType, PodSpec, ConfigItem, SecretItem } from "../shared/pod-types";
+import ComponentHeader from "../shared/components/component-header";
 
 interface IPod {
   dragHandlers: {
@@ -30,10 +28,7 @@ const Pod = ({ dragHandlers, pod }: IPod) => {
   return (
     <Draggable bounds="parent" handle=".pod-drag" {...dragHandlers}>
       <div className="p-1 w-max h-max border border-dashed rounded-md border-black ">
-        <div className="pod-drag flex justify-between space-x-4">
-          <div className="text-xs">namespace</div>
-          <div className="text-xs">{pod.namespace}</div>
-        </div>
+        <ComponentHeader label="namespace" title={pod.namespace} customClass="pod-drag" />
         <div className="p-1 bg-white border rounded-md border-black">
           <div className="pod-drag flex justify-between space-x-4">
             <div className="text-xs">Pod</div>

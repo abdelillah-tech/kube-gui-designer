@@ -8,7 +8,7 @@ interface ISelectField {
 
 const SelectField = ({ label, name, options }: ISelectField) => (
   <>
-    <label>{`${label}:`}</label>
+    <label className="font-bold text-gray-800">{`${label}:`}</label>
     <Field name={name} className="border rounded-md p-1" as="select">
       <option value="" label="Select a value">
         Select a value

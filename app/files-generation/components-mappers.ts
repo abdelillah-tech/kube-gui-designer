@@ -1,17 +1,10 @@
-import {
-  Components,
-  ConfigItem,
-  ConfigSpec,
-  Configs,
-  NameValue,
-  PodSpec,
-  Pods,
-  SecretItem,
-  SecretSpec,
-  Secrets,
-  ServiceSpec,
-  Services,
-} from "../contexts";
+import { Configs, ConfigSpec } from "../components/shared/config-map-types";
+import { Pods, PodSpec, ConfigItem, SecretItem } from "../components/shared/pod-types";
+import { Secrets, SecretSpec } from "../components/shared/secret-types";
+import { Services, ServiceSpec } from "../components/shared/service-types";
+import { Components, NameValue } from "../components/shared/types";
+
+;
 
 export const mapComponents = (components: Components) => {
   return [

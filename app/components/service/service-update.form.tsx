@@ -3,15 +3,15 @@ import { Formik } from "formik";
 import { useContext } from "react";
 import {
   KubeComponentsContext,
-  ServiceSpec,
-  Protocol,
   ControlBarContext,
   ControlMode,
-} from "../../../../contexts";
-import { ServiceCreationSchema } from "../../form-validation";
-import SimpleField from "../../custom-fields/simple-field";
-import SelectField from "../../custom-fields/select-field";
-import UpdateFormBody from "../../helpers/update-form-body";
+} from "../../contexts";
+import SimpleField from "../shared/components/fields/simple-field";
+import SelectField from "../shared/components/fields/select-field";
+import UpdateFormBody from "../shared/components/wrappers/update-form-body";
+import ServiceSchema from "./service-validation";
+import { ServiceSpec, Protocol } from "../shared/service-types";
+import { SimpleStaticField } from "../shared/components";
 
 interface IServiceUpdateForm {
   spec: ServiceSpec;
@@ -26,7 +26,7 @@ const ServiceUpdateForm = ({ spec }: IServiceUpdateForm) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={ServiceCreationSchema}
+      validationSchema={ServiceSchema}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           setSubmitting(false);
@@ -37,21 +37,16 @@ const ServiceUpdateForm = ({ spec }: IServiceUpdateForm) => {
       {() => (
         <UpdateFormBody
           title="Update Service"
-          deleteComponent={() => deleteService(spec.name)}
+          deleteComponent={() => deleteService(spec.targetPort)}
         >
-          <label>Name:</label>
-          <div className="border rounded-md p-1">{spec.name}</div>
-
+          <SimpleStaticField label="Name" value={spec.name} />
           <SimpleField label="Port" name="port" type="number" />
-
           <SimpleField label="Target Port" name="targetPort" type="number" />
-
           <SelectField
             label="Protocol"
             name="protocol"
             options={[Protocol.TCP, Protocol.SCTP, Protocol.UDP]}
           />
-
           <SimpleField label="Namespace" name="namespace" type="text" />
         </UpdateFormBody>
       )}

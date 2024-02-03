@@ -1,7 +1,8 @@
 import Draggable from "react-draggable";
 import { useState } from "react";
 import Pod from "../pod";
-import { Pods } from "../../contexts";
+import { Pods } from "../shared/pod-types";
+import ComponentHeader from "../shared/components/component-header";
 
 interface INode {
   dragHandlers: {
@@ -28,11 +29,8 @@ const Node = ({ dragHandlers, title, pods, podIds }: INode) => {
 
   return (
     <Draggable bounds="parent" handle=".node-drag" {...dragHandlers}>
-      <div className="flex flex-col p-1 w-96 h-max bg-white border rounded-md border-black">
-        <div className="node-drag flex justify-between space-x-5">
-          <div>Node</div>
-          <div>{title}</div>
-        </div>
+      <div className="flex flex-col p-1 w-96 h-max bg-amber-50 rounded-md shadow-lg">
+        <ComponentHeader label="Node" title={title} customClass="node-drag" />
         <div className="relative flex flex-wrap aspect-[4/3]">
           {podIds.map(
             (podId, index) =>
