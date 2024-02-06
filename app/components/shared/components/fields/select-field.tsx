@@ -9,7 +9,7 @@ interface ISelectField {
 const SelectField = ({ label, name, options }: ISelectField) => (
   <div className="flex flex-col">
     <div className="grid grid-cols-3">
-      <label className="font-bold text-gray-800">{`${label}:`}</label>
+      <label className="font-bold text-sm text-gray-800">{`${label}:`}</label>
       <Field name={name} className="col-span-2 border rounded-md p-1" as="select">
         <option value="" label="Select a value">
           Select a value

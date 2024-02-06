@@ -1,4 +1,4 @@
-import { FieldArray } from "formik";
+import { ErrorMessage, FieldArray } from "formik";
 import { NameValue } from "../../types";
 import { AddRemoveController, NameValueField, SmallButton } from "..";
 
@@ -18,10 +18,7 @@ const ArrayField = ({ items, name, label }: IArrayField) => (
           {items && items.length > 0 ? (
             items.map((config, index) => (
               <div key={index} className="inline-block">
-                <div
-                  key={index}
-                  className="flex justify-between items-center p-1 m-1"
-                >
+                <div className="flex justify-between items-center p-1 m-1">
                   <NameValueField index={index} prefix={name} />
                   <AddRemoveController
                     index={index}
@@ -34,7 +31,7 @@ const ArrayField = ({ items, name, label }: IArrayField) => (
           ) : (
             <SmallButton
               text="Add a config"
-              handler={() => arrayHelpers.push("")}
+              handler={() => arrayHelpers.push({ name: "", value: "" })}
             />
           )}
         </div>
